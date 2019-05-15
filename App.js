@@ -4,55 +4,146 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+	Platform,
+	StyleSheet,
+	Text,
+	View,
+	ScrollView
+	// TextInput
+} from "react-native";
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import TextInput from "./TextInput";
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
-  }
+export default class App extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
+	handleTitleInputSubmit = () => {
+		this.setState({ focusDescriptionInput1: true });
+	};
+
+	onInputFocus = (up) => {
+		setTimeout(() => {
+			this.scrollView.scrollTo({ x: 0, y: up, animated: true });
+		}, 200);
+	};
+	onInputBlur = () => {
+		this.scrollView.scrollTo({ x: 0, y: 0, animated: true });
+	};
+	render() {
+		return (
+			<ScrollView
+				ref={(ref) => (this.scrollView = ref)}
+				keyboardShouldPersistTaps={"handled"}
+				style={styles.container}>
+				{/* <TextInput
+					autoFocus={true}
+					underlineColorAndroid={"transparent"}
+					style={styles.textInput}
+					placeholder={"1"}
+					returnKeyType={"next"}
+					returnKeyLabel={"boro"}
+          onSubmitEditing={() => {}}
+          // ref={(input) => { this.firstTextInput = input; }}
+          // onSubmitEditing={() => { this.secondTextInput.focus(); }}
+    blurOnSubmit={false}
+				/>
+				<TextInput
+					autoFocus={true}
+					underlineColorAndroid={"transparent"}
+					style={styles.textInput}
+					placeholder={"2"}
+					returnKeyType={"next"}
+					returnKeyLabel={"boro"}
+          onSubmitEditing={() => {}}
+          // ref={(input) => { this.secondTextInput = input; }}
+          // onSubmitEditing={() => { this.thirdTextInput.focus(); }}
+    blurOnSubmit={false}
+				/>
+				<TextInput
+					autoFocus={true}
+					underlineColorAndroid={"transparent"}
+					style={styles.textInput}
+					placeholder={"3"}
+					// returnKeyType={"next"}
+					// returnKeyLabel={"boro"}
+          // onSubmitEditing={() => {}}
+          // ref={(input) => { this.thirdTextInput = input; }}
+          // onSubmitEditing={() => { this.forthTextInput.focus(); }}
+    blurOnSubmit={false}
+				/>
+				<TextInput
+					autoFocus={true}
+					underlineColorAndroid={"transparent"}
+					style={styles.textInput}
+					placeholder={"4"}
+					returnKeyType={"next"}
+					returnKeyLabel={"boro"}
+          onSubmitEditing={() => {}}
+          // ref={(input) => { this.forthTextInput = input; }}
+          // onSubmitEditing={() => { this.firstTextInput.focus(); }}
+          blurOnSubmit={false}
+				/> */}
+				<View style={styles.textInputWrapper}>
+					<TextInput
+						style={styles.textInput}
+						placeholder="Username"
+						inputRef={(input) => {
+							this.userPassInput = input;
+						}}
+						onSubmitEditing={(event) => {
+							this.passTextInput.focus();
+						}}
+						onFocus={this.onInputFocus.bind(this , 250)}
+						
+					/>
+
+					<TextInput
+						style={styles.textInput}
+						placeholder="Password"
+						inputRef={(input) => {
+							this.passTextInput = input;
+						}}
+						onSubmitEditing={(event) => {
+							this.verifyTextInput.focus();
+						}}
+						onFocus={this.onInputFocus.bind(this , 350)}
+					/>
+
+					<TextInput
+						style={styles.textInput}
+						placeholder="Verification"
+						inputRef={(input) => {
+							this.verifyTextInput = input;
+						}}
+						// onSubmitEditing={this.pressSubmitt.bind(this)}
+						isLast={true}
+						onFocus={this.onInputFocus.bind(this , 500)}
+						onBlur={this.onInputBlur.bind(this)}
+					/>
+				</View>
+			</ScrollView>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+	container: {
+		backgroundColor: "#F5FCFF"
+	},
+	textInputWrapper: {
+		marginVertical: 400,
+		borderWidth: 1,
+		alignItems: "center"
+	},
+	textInput: {
+		width: 200,
+		height: 50,
+		borderWidth: 2,
+		marginVertical: 50
+	}
 });
